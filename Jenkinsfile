@@ -31,6 +31,7 @@ pipeline {
             }
             steps {
                 echo("Deploy steps: applying k8s YAML manifest")
+                sh 'kubectl apply -f kubernetes/deployment.yaml'
             }
         }
     }
