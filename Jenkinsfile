@@ -13,8 +13,7 @@ pipeline {
         stage("Build Image") {
             steps {
                 script {
-                    dockerImage = docker.build registry
-                    echo 'Build Image completed'
+                    dockerImage = docker.build(registry)
                 }
             }
         }
