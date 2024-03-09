@@ -1,1 +1,1 @@
-docker build -t muhresta/cafe-image
+docker build -t muhresta/from from
