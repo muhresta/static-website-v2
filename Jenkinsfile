@@ -1,7 +1,7 @@
 pipeline {
     environment{
         registry = "muhresta/web-cafe"
-        registryCredential= 'muhresta'
+        registryCredential= 'dockerhub_id'
         dockerImage = ''
     }
     agent any
