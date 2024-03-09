@@ -1,22 +1,38 @@
 pipeline {
+    environment{
+        dockerimagename = "muhresta/web-cafe"
+        dockerImage = ""
+    }
     agent any
-
     stages {
-
-        stage("Build") {
+        stage("Checkout Source") {
             steps {
-                echo("Build steps isn't needed for HTML & CSS project")
+                git 'https://github.com:muhresta/static-website-v2.git'
             }
         }
-        stage("Test") {
+        stage("Build Image") {
             steps {
-                echo("Test steps isn't needed for HTML & CSS project")
+                script {
+                    dockerImage = docker.build dockerimagename
+                }
             }
         }
-        stage("Deploy") {
+        stage("Pushing Image") {
+            environment {
+                    registryCredential = "dockerhub-credentials"
+            }
             steps {
-                echo("Deploy steps: applying k8s YAML manifest")
-                bash 'kubectl apply -f deployment.yaml'
+                script {
+                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential )
+                        dockerImage.push("latest")
+                }
+            }
+        }
+        stage("Deploying container to Kubernetes") {
+            steps {
+                script {
+                    kubernetesDeploy(configs: 'deployment.yaml', 'service.yaml')
+                }
             }
         }
     }
