@@ -1,7 +1,7 @@
-# Gunakan base image yang ringan
+# Gunakan base image nginx:alpine yang ringan
 FROM nginx:alpine
 
-# Atur direktori kerja ke direktori default NGINX
+# Atur direktori kerja ke direktori default alpine
 WORKDIR /usr/share/nginx/html
 
 # Salin file aplikasi HTML dan CSS ke dalam container
