@@ -1,0 +1,1 @@
+docker build -t muhresta/cafe-image
