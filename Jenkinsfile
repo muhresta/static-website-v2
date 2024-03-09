@@ -1,5 +1,8 @@
+Jenkinsfile (Declarative Pipeline)
 pipeline {
-    agent any
+    agent {
+        docker { image 'muhresta/web-cafe'}
+    }
 
     stages {
 
