@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker { image 'muhresta/web-cafe'}
+        any
     }
 
     stages {
