@@ -36,4 +36,7 @@ pipeline {
             }
         }
     }
+    options {
+        skipDefaultCheckout(true)
+    }
 }
