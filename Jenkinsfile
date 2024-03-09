@@ -16,7 +16,7 @@ pipeline {
         stage("Deploy") {
             steps {
                 echo("Deploy steps: applying k8s YAML manifest")
-                sh 'kubectl apply -f deployment.yaml'
+                bash 'kubectl apply -f deployment.yaml'
             }
         }
     }
