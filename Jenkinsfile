@@ -1,11 +1,12 @@
 pipeline {
     environment{
-        dockerimagename = "muhresta/web-cafe"
-        DOCKERHUB_CREDENTIALS= credentials('dockerhubcredentials')
+        registry = "muhresta/web-cafe"
+        registryCredential= 'muhresta'
+        dockerImage = ''
     }
     agent any
     stages {
-        stage("Checkout Source") {
+        stage("Source Cloning") {
             steps {
                 git 'https://github.com/muhresta/static-website-v2.git'
             }
@@ -13,21 +14,17 @@ pipeline {
         stage("Build Image") {
             steps {
                 script {
-                    sh 'sudo docker build -t muhresta/web-cafe:$BUILD_NUMBER'
+                    dockerImage = docker.build registry + ':$BUILD_NUMBER'
                     echo 'Build Image completed'
                 }
-            }
-        }
-        stage('Login to Docker Hub') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                echo 'Login Completed'
             }
         }
         stage("Pushing Image") {
             steps {
                 script {
-                    sh 'sudo docker push muhresta/web-cafe:$BUILD_NUMBER'
+                    docker.withRegistry( '', registryCredential) {
+                        dockerImage.push()
+                    }
                     echo 'Push image completed'
                 }
             }
