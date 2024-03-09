@@ -1,7 +1,6 @@
 pipeline {
     environment{
         registry = "muhresta/web-cafe"
-        registryCredential= 'dockerhub_id'
         dockerImage = ''
     }
     agent any
@@ -14,15 +13,18 @@ pipeline {
         stage("Build Image") {
             steps {
                 script {
-                    dockerImage = docker.build registry + ':$BUILD_NUMBER'
+                    dockerImage = docker.build registry
                     echo 'Build Image completed'
                 }
             }
         }
         stage("Pushing Image") {
+            environment {
+                registryCredential= 'dockerhub-credentials'
+            }
             steps {
                 script {
-                    docker.withRegistry( '', registryCredential) {
+                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential) {
                         dockerImage.push()
                     }
                     echo 'Push image completed'
@@ -32,7 +34,7 @@ pipeline {
         stage("Deploying container to Kubernetes") {
             steps {
                 script {
-                    kubernetesDeploy(configs: 'deployment.yaml', 'service.yaml')
+                    kubernetesDeploy(configs: 'deployment.yaml', 'services.yaml')
                 }
             }
         }
