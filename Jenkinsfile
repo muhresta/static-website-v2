@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage("Checkout Source") {
             steps {
-                git 'https://github.com:muhresta/static-website-v2.git'
+                git 'https://github.com/muhresta/static-website-v2.git'
             }
         }
         stage("Build Image") {
@@ -35,8 +35,5 @@ pipeline {
                 }
             }
         }
-    }
-    options {
-        skipDefaultCheckout(true)
     }
 }
