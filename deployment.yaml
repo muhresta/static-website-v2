@@ -2,34 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-cafe-app
-  labels: web-cafe-app
+  name: deployment
+  labels:
+    app: web-cafe
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: web-cafe-app
+      app: web-cafe
   template:
     metadata:
       labels:
-        app: web-cafe-app
+        app: web-cafe
     spec:
       containers:
-      - name: web-cafe-app
-        image: muhresta/web-cafe-app:v1
+      - name: web-cafe
+        image: muhresta/web-cafe:v1
         ports:
         - containerPort: 80
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: web-cafe-app
-  labels:
-    app: web-cafe-app
-spec:
-  selector:
-    app: web-cafe-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
