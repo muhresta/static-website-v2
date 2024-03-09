@@ -1,7 +1,7 @@
 pipeline {
     environment{
         dockerimagename = "muhresta/web-cafe"
-        dockerImage = ""
+        DOCKERHUB_CREDENTIALS= credentials('dockerhubcredentials')
     }
     agent any
     stages {
@@ -13,18 +13,22 @@ pipeline {
         stage("Build Image") {
             steps {
                 script {
-                    dockerImage = docker.build dockerimagename
+                    sh 'sudo docker build -t muhresta/web-cafe:$BUILD_NUMBER'
+                    echo 'Build Image completed'
                 }
             }
         }
-        stage("Pushing Image") {
-            environment {
-                    registryCredential = "dockerhub-credentials"
+        stage('Login to Docker Hub') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                echo 'Login Completed'
             }
+        }
+        stage("Pushing Image") {
             steps {
                 script {
-                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential )
-                        dockerImage.push("latest")
+                    sh 'sudo docker push muhresta/web-cafe:$BUILD_NUMBER'
+                    echo 'Push image completed'
                 }
             }
         }
