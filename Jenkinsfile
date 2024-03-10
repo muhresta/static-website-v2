@@ -17,8 +17,8 @@ pipeline {
     stage('Push Image') {
       steps{
         script {
-          withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')])
-          sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+          withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_REGISTRY_USER', passwordVariable: 'DOCKER_REGISTRY_PWD')])
+          sh 'docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PWD'
           sh 'docker push muhresta/web-cafe:v1'
           }
         }
