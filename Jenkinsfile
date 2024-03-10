@@ -20,7 +20,7 @@ pipeline {
       }
       steps{
         script {
-          sh 'docker login -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PWD}'
+          sh 'docker login --username ${DOCKER_CREDENTIALS_USR} --password ${DOCKER_CREDENTIALS_PWD}'
           sh 'docker push muhresta/web-cafe:v1'
           }
         }
