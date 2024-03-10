@@ -1,8 +1,4 @@
 pipeline {
-  environment {
-    dockerimagename = "muhresta/web-cafe"
-    dockerImage = ""
-  }
   agent any
   stages {
     stage('Checkout Source') {
@@ -13,27 +9,24 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build dockerimagename
+          echo 'Building Docker image...'
+          sh 'docker build -t muhresta/web-cafe:v1'
         }
       }
     }
-    stage('Pushing Image') {
-      environment {
-          registryCredential = 'dockerhub-credentials'
-           }
+    stage('Push Image') {
       steps{
         script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
+          withCredentials([usernamePassword(credentialsId: 'dockerhub-credential', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')])
+          sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+          sh 'docker push muhresta/web-cafe:v1'
           }
         }
       }
-    }
     stage('Deploying container to Kubernetes') {
       steps {
         script {
-          kubernetesDeploy(configs: "deployment.yaml", 
-                                         "services.yaml")
+          kubernetesDeploy(configs: "deployment.yaml", "services.yaml")
         }
       }
     }
