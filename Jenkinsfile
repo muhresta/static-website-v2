@@ -10,7 +10,7 @@ pipeline {
       steps{
         script {
           echo 'Building Docker image...'
-          sh 'docker build -t muhresta/web-cafe:v1'
+          sh 'docker build -t muhresta/web-cafe:v1 .'
         }
       }
     }
