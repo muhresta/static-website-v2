@@ -28,8 +28,8 @@ pipeline {
     stage('Deploying container to Kubernetes') {
       steps {
         script {
-          sh 'kubectl apply -f deployment.yaml'
-          sh 'kubectl apply -f services.yaml'
+          sh 'minikube kubectl -- apply -f deployment.yaml'
+          sh 'minikube kubectl -- apply -f services.yaml'
         }
       }
     }
