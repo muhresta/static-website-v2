@@ -18,5 +18,12 @@ spec:
       containers:
       - name: web-cafe
         image: muhresta/web-cafe:v1
+        resources:
+          limits:
+          memory: 512Mi
+          cpu: 1
+        request:
+          memory: 256Mi
+          cpu: 1
         ports:
         - containerPort: 80
