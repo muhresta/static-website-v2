@@ -28,8 +28,8 @@ pipeline {
     stage('Deploying container to Kubernetes') {
       steps {
         script {
-          sh 'kubectl apply -f deployment.yaml'
-          sh 'kubectl apply -f services.yaml'
+          sh 'kubectl apply -f deployment.yaml --validate=false'
+          sh 'kubectl apply -f services.yaml --validate=false'
         }
       }
     }
