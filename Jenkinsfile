@@ -31,8 +31,8 @@ pipeline {
     stage('Deploying container to Kubernetes') {
       steps {
         script {
-          sh 'kubectl apply -f deployment.yaml --validate=false'
-          sh 'kubectl apply -f services.yaml --validate=false'
+          sh 'kubectl apply -f deployment.yaml --validate=false --context minikube'
+          sh 'kubectl apply -f services.yaml --validate=false --context minikube'
         }
       }
     }
