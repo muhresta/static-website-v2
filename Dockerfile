@@ -1,4 +1,4 @@
-# Gunakan base image nginx:alpine yang ringan
+# Gunakan base image web engine nginx:alpine yang ringan
 FROM nginx:alpine
 
 # Atur direktori kerja ke direktori default alpine
